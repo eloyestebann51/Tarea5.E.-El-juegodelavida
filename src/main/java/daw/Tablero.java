@@ -37,17 +37,18 @@ public class Tablero {
             matrizActual[fila][columna] = 1;
         }
     }
-    
+
     //metodo para mostrar tablero
     public void mostrarTablero() {
-        for (int i = 0; i < matrizActual.length; i++) {
-            for (int j = 0; j < matrizActual[i].length; j++) {
+        //n = (matrizActual.length)
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 System.out.print(matrizActual[i][j] + " ");
             }
             System.out.println("");
         }
     }
-    
+
     //metodo para contar vecinas
     public int contarVecina(int fila, int columna) {
         int cantidadVivasAlrededor = 0;//contador de vivas
@@ -68,6 +69,49 @@ public class Tablero {
         }
         return cantidadVivasAlrededor;
     }
-    
-    
+
+    //metodo copiar matriz 
+    public void copiarMatriz() {
+        //n = (matrizActual.length)
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrizActual[i][j] = matrizSiguiente[i][j];
+            }
+        }
+    }
+
+    public int[][] getMatriz() {
+        return matrizActual;
+    }
+
+    public void generarSiguienteGeneracion() {
+        //n = (matrizActual.length)
+        //=1 para que no compruebe los bordes
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < n; j++) {
+                //comprueba las posiciones y guarda la cantidad de vecinas
+                int cantidadVivasAlrededor = contarVecina(i, j);
+                if (matrizActual[i][j] == 1) { //celulas vivas
+                    if (cantidadVivasAlrededor == 2 || cantidadVivasAlrededor == 3) {
+                        matrizSiguiente[i][j] = 1;//vive
+                    } else if (cantidadVivasAlrededor > 3) {
+                        matrizSiguiente[i][j] = 0;//muere
+                    } else if (cantidadVivasAlrededor == 0 || cantidadVivasAlrededor == 1) {
+                        matrizSiguiente[i][j] = 0;//muere
+                    }
+                } else { //celulas muertas
+                    if (cantidadVivasAlrededor == 3) {
+                        matrizSiguiente[i][j] = 1; //revive
+                    }
+                }
+            }
+        }
+        /*
+            Como trabajamos con matrizSiguiente para no modificar la matrizActual
+            en todo el proceso, al final copiamos los valores acrtualizados de matrizSiguiente
+            a la matrizActual. De esta forma estudiamos la matriz actual sin modificarla en 
+            ningun momento.
+        */
+        copiarMatriz();
+    }
 }
