@@ -38,12 +38,36 @@ public class Tablero {
         }
     }
     
-    public void mostrarTablero(){
+    //metodo para mostrar tablero
+    public void mostrarTablero() {
         for (int i = 0; i < matrizActual.length; i++) {
             for (int j = 0; j < matrizActual[i].length; j++) {
-                System.out.print(matrizActual[i][j] + " "); 
+                System.out.print(matrizActual[i][j] + " ");
             }
             System.out.println("");
         }
     }
+    
+    //metodo para contar vecinas
+    public int contarVecina(int fila, int columna) {
+        int cantidadVivasAlrededor = 0;//contador de vivas
+        //matriz de las posiciones a comprobar
+        int[][] direcciones = {
+            {-1, -1}, {-1, 0}, {-1, 1},
+            {0, -1}, {0, 1},
+            {1, -1}, {1, 0}, {1, 1}
+        };
+        //for para comprobar las posiciones vecinas
+        for (int[] direccion : direcciones) {
+            //a la posicionActual le suma la posicion a comprobar 
+            int i = fila + direccion[0];
+            int j = columna + direccion[1];
+            if (matrizActual[i][j] == 1) {
+                cantidadVivasAlrededor++;
+            }
+        }
+        return cantidadVivasAlrededor;
+    }
+    
+    
 }
