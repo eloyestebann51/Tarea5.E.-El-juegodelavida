@@ -11,10 +11,11 @@ public class Tablero {
     public Tablero() {
     }
 
-    public Tablero(int n, int[][] matrizActual, int[][] matrizSiguiente) {
+    public Tablero(int n, double porcentajeVivas) {
         this.n = n;
-        this.matrizActual = matrizActual;
-        this.matrizSiguiente = matrizSiguiente;
+        this.matrizActual = new int[n][n];
+        this.matrizSiguiente = new int[n][n];
+        IniciarTablero(porcentajeVivas);
     }
 
     public void IniciarTablero(double porcentajeCelulasVivas) {
@@ -34,6 +35,15 @@ public class Tablero {
             } while (matrizActual[fila][columna] == 1);
             //guarda el valor habiendo comprobado previamente
             matrizActual[fila][columna] = 1;
+        }
+    }
+    
+    public void mostrarTablero(){
+        for (int i = 0; i < matrizActual.length; i++) {
+            for (int j = 0; j < matrizActual[i].length; j++) {
+                System.out.print(matrizActual[i][j] + " "); 
+            }
+            System.out.println("");
         }
     }
 }
