@@ -7,6 +7,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Tablero tablero = null;
         boolean juegoActivo = true;
+        int numeroGeneracion = 1;
         
         System.out.println("Bienvenido al Juego de la Vida");
         System.out.println("1. Iniciar un nuevo juego");
@@ -31,10 +32,12 @@ public class Main {
                 return;
         }
         
-        System.out.println("Generacion inicial:");
-        tablero.mostrarTablero();
         int generacionesSinCambio = 0;
-        int celulasVivasPrevias = -1;
+        int celulasVivasPrevias = contarCelulasVivas(tablero);
+        
+        System.out.println("Generacion " + numeroGeneracion + ":");
+        tablero.mostrarTablero();
+        System.out.println("Celulas vivas: " + celulasVivasPrevias);
         
         while (juegoActivo) {
             System.out.println("\nSeleccione una opcion:");
@@ -46,10 +49,13 @@ public class Main {
             
             switch (eleccion) {
                 case 1:
-                    int celulasVivasActuales = contarCelulasVivas(tablero);
-                    System.out.println("Celulas vivas en esta generacion: " + celulasVivasActuales);
                     tablero.generarSiguienteGeneracion();
+                    numeroGeneracion++;
+                    int celulasVivasActuales = contarCelulasVivas(tablero);
+                    
+                    System.out.println("Generacion " + numeroGeneracion + ":");
                     tablero.mostrarTablero();
+                    System.out.println("Celulas vivas: " + celulasVivasActuales);
                     
                     if (celulasVivasActuales == celulasVivasPrevias) {
                         generacionesSinCambio++;
