@@ -2,47 +2,87 @@ package daw;
 
 import java.util.Scanner;
 
-/**
- *
- * @author eloy
- */
 public class Main {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Solicitar tamaño del tablero y porcentaje de células vivas iniciales
-        System.out.print("Introduce el tamaño del tablero: ");
-        int tamaño = scanner.nextInt();
-
-        System.out.print("Introduce el porcentaje de celulas vivas (0-100): ");
-        double porcentajeVivas = scanner.nextDouble();
-
-        // Crear tablero e imprimir la primera generación
-        Tablero tablero = new Tablero(tamaño, porcentajeVivas);
+        Tablero tablero = null;
+        boolean juegoActivo = true;
+        
+        System.out.println("Bienvenido al Juego de la Vida");
+        System.out.println("1. Iniciar un nuevo juego");
+        System.out.println("2. Cargar partida (no implementado aun)");
+        System.out.print("Seleccione una opcion: ");
+        
+        int opcion = scanner.nextInt();
+        
+        switch (opcion) {
+            case 1:
+                System.out.print("Ingrese el tamano del tablero: ");
+                int n = scanner.nextInt();
+                System.out.print("Ingrese el porcentaje de celulas vivas: ");
+                double porcentajeVivas = scanner.nextDouble();
+                tablero = new Tablero(n, porcentajeVivas);
+                break;
+            case 2:
+                System.out.println("Funcionalidad de carga no implementada aun.");
+                return;
+            default:
+                System.out.println("Opcion no valida.");
+                return;
+        }
+        
         System.out.println("Generacion inicial:");
         tablero.mostrarTablero();
-
-        // Preguntar cuántas generaciones desea simular
-        System.out.print("Introduce el número de generaciones a simular: ");
-        int generaciones = scanner.nextInt();
-
-        // Simular generaciones
-        for (int i = 1; i <= generaciones; i++) {
-            tablero.generarSiguienteGeneracion();
-            System.out.println("Generacion " + i + ":");
-            tablero.mostrarTablero();
+        int generacionesSinCambio = 0;
+        int celulasVivasPrevias = -1;
+        
+        while (juegoActivo) {
+            System.out.println("\nSeleccione una opcion:");
+            System.out.println("1. Mostrar siguiente generacion");
+            System.out.println("2. Terminar el juego");
+            System.out.print("Opcion: ");
+            
+            int eleccion = scanner.nextInt();
+            
+            switch (eleccion) {
+                case 1:
+                    int celulasVivasActuales = contarCelulasVivas(tablero);
+                    System.out.println("Celulas vivas en esta generacion: " + celulasVivasActuales);
+                    tablero.generarSiguienteGeneracion();
+                    tablero.mostrarTablero();
+                    
+                    if (celulasVivasActuales == celulasVivasPrevias) {
+                        generacionesSinCambio++;
+                    } else {
+                        generacionesSinCambio = 0;
+                    }
+                    celulasVivasPrevias = celulasVivasActuales;
+                    
+                    if (generacionesSinCambio == 3) {
+                        System.out.println("El juego ha terminado debido a la estabilizacion de celulas.");
+                        juegoActivo = false;
+                    }
+                    break;
+                case 2:
+                    System.out.println("Juego terminado por el usuario.");
+                    juegoActivo = false;
+                    break;
+                default:
+                    System.out.println("Opcion no valida.");
+            }
         }
-
-        // Mostrar los valores internos de las células vivas al final de la simulación
-        System.out.println("\nDetalles de las celulas vivas despues de la simulacion:");
-        for (int i = 0; i < tamaño; i++) {
-            for (int j = 0; j < tamaño; j++) {
-                if (tablero.getMatrizActual()[i][j].isViva()) {
-                    System.out.println("Celula en (" + i + "," + j + "): " + tablero.getMatrizActual()[i][j]);
+    }
+    
+    private static int contarCelulasVivas(Tablero tablero) {
+        Celula[][] matriz = tablero.getMatrizActual();
+        int contador = 0;
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (matriz[i][j].isViva()) {
+                    contador++;
                 }
             }
         }
-
+        return contador;
     }
 }
