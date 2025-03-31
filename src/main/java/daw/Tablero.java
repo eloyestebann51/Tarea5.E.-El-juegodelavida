@@ -7,6 +7,7 @@ public class Tablero {
     private int n; // Tamaño del tablero
     private Celula[][] matrizActual;
     private Celula[][] matrizSiguiente;
+    
 
     public Tablero() {
     }
@@ -35,7 +36,7 @@ public class Tablero {
             do {
                 fila = generarAleatorio.nextInt(n);
                 columna = generarAleatorio.nextInt(n);
-            } while (matrizActual[fila][columna].isViva());
+            } while (matrizActual[fila][columna].getViva());
             matrizActual[fila][columna].setViva(true);
         }
     }
@@ -43,7 +44,7 @@ public class Tablero {
     public void mostrarTablero() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                System.out.print(matrizActual[i][j].isViva() ? "* " : "0 ");
+                System.out.print(matrizActual[i][j].getViva() ? "* " : "0 ");
             }
             System.out.println();
         }
@@ -59,7 +60,7 @@ public class Tablero {
         for (int[] direccion : direcciones) {
             int i = fila + direccion[0];
             int j = columna + direccion[1];
-            if (i >= 0 && i < n && j >= 0 && j < n && matrizActual[i][j].isViva()) {
+            if (i >= 0 && i < n && j >= 0 && j < n && matrizActual[i][j].getViva()) {
                 cantidadVivasAlrededor++;
             }
         }
@@ -69,7 +70,7 @@ public class Tablero {
     public void copiarMatriz() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                matrizActual[i][j].setViva(matrizSiguiente[i][j].isViva());
+                matrizActual[i][j].setViva(matrizSiguiente[i][j].getViva());
             }
         }
     }
@@ -78,7 +79,7 @@ public class Tablero {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 int cantidadVivasAlrededor = contarVecinasVivas(i, j);
-                boolean estadoActual = matrizActual[i][j].isViva();
+                boolean estadoActual = matrizActual[i][j].getViva();
                 boolean nuevoEstado = estadoActual;
 
                 if (estadoActual) {
@@ -98,6 +99,10 @@ public class Tablero {
 
     public Celula[][] getMatrizActual() {
         return matrizActual;
+    }
+
+    public Celula[][] getMatrizSiguiente() {
+        return matrizSiguiente;
     }
     
     

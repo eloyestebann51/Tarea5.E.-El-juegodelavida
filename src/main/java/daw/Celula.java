@@ -16,7 +16,7 @@ class Celula {
         this.edad = 0;
     }
 
-    public boolean isViva() {
+    public boolean getViva() {
         return viva;
     }
 
