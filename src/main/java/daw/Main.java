@@ -78,6 +78,7 @@ public class Main {
                 case 2:
                     System.out.println("Juego terminado por el usuario.");
                     juegoActivo = false;
+                    GuardarJuego.guardarEstadoJuego(tablero, numeroGeneracion);
                     break;
                 default:
                     System.out.println("Opcion no valida.");
