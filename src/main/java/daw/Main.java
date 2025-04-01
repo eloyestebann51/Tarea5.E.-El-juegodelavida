@@ -1,6 +1,8 @@
 package daw;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -40,6 +42,8 @@ public class Main {
         System.out.println("Generacion " + numeroGeneracion + ":");
         tablero.mostrarTablero();
         System.out.println("Células vivas: " + contarCelulasVivas(tablero.getMatrizActual()));
+        List<Integer> listaCelulasVivasRondas = new ArrayList<>();
+        listaCelulasVivasRondas.add(contarCelulasVivas(tablero.getMatrizActual()));
 
         while (juegoActivo) {
             System.out.println("\nSeleccione una opcion:");
@@ -48,6 +52,7 @@ public class Main {
             System.out.print("Opcion: ");
 
             int eleccion = scanner.nextInt();
+            
 
             switch (eleccion) {
                 case 1:
@@ -57,6 +62,7 @@ public class Main {
                     System.out.println("Generacion " + numeroGeneracion + ":");
                     tablero.mostrarTablero();
                     System.out.println("Células vivas: " + contarCelulasVivas(tablero.getMatrizActual()));
+                    listaCelulasVivasRondas.add(contarCelulasVivas(tablero.getMatrizActual()));
 
                     // Comprobamos si hay 3 generaciones consecutivas iguales
                     if (matricesIguales(matrizAnterior, tablero.getMatrizActual())) {
@@ -78,7 +84,7 @@ public class Main {
                 case 2:
                     System.out.println("Juego terminado por el usuario.");
                     juegoActivo = false;
-                    GuardarJuego.guardarEstadoJuego(tablero, numeroGeneracion);
+                    GuardarJuego.guardarEstadoJuego(tablero, numeroGeneracion, listaCelulasVivasRondas);
                     break;
                 default:
                     System.out.println("Opcion no valida.");

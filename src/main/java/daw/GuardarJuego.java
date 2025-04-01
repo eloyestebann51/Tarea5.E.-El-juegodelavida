@@ -4,10 +4,11 @@ package daw;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class GuardarJuego {
-    public static void guardarEstadoJuego(Tablero tablero, int numeroGeneracion) {
+    public static void guardarEstadoJuego(Tablero tablero, int numeroGeneracion, List<Integer> celulasVivasRondas) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre del archivo para guardar la partida: ");
         String nombreArchivo = scanner.next();
@@ -31,6 +32,12 @@ public class GuardarJuego {
                 }
                 writer.newLine();
             }
+            
+            // Guardar celulas vivas por generacion
+            for (int celulasVivas : celulasVivasRondas) {
+                writer.write(celulasVivas + " ");
+            }
+            writer.newLine();
             
             writer.flush();
             System.out.println("Partida guardada exitosamente en " + nombreArchivo + ".txt");
