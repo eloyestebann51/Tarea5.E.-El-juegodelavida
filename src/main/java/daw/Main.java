@@ -13,10 +13,11 @@ public class Main {
         boolean juegoActivo = true;
         int numeroGeneracion = 1;
         int generacionesIgualesConsecutivas = 0;
+        List<Integer> listaCelulasVivasRondas = new ArrayList<>();
 
         System.out.println("Bienvenido al Juego de la Vida");
         System.out.println("1. Iniciar un nuevo juego");
-        System.out.println("2. Cargar partida (no implementado aun)");
+        System.out.println("2. Cargar partida");
         System.out.print("Seleccione una opcion: ");
 
         int opcion = scanner.nextInt();
@@ -30,8 +31,18 @@ public class Main {
                 tablero = new Tablero(n, porcentajeVivas);
                 break;
             case 2:
-                System.out.println("Funcionalidad de carga no implementada aun.");
-                return;
+                System.out.print("Ingrese el nombre del archivo a cargar: ");
+                String nombreArchivo = scanner.next();
+                CargarJuego.JuegoCargado juego = CargarJuego.JuegoCargado.cargarPartida(nombreArchivo);
+                if (juego == null) {
+                    System.out.println("No se pudo cargar el juego.");
+                    return;
+                }
+                tablero = juego.tablero;
+                numeroGeneracion = juego.numeroGeneracion;
+                listaCelulasVivasRondas = juego.celulasVivasRondas;
+                break;
+
             default:
                 System.out.println("Opcion no valida.");
                 return;
@@ -41,8 +52,7 @@ public class Main {
 
         System.out.println("Generacion " + numeroGeneracion + ":");
         tablero.mostrarTablero();
-        System.out.println("Células vivas: " + contarCelulasVivas(tablero.getMatrizActual()));
-        List<Integer> listaCelulasVivasRondas = new ArrayList<>();
+        System.out.println("Celulas vivas: " + contarCelulasVivas(tablero.getMatrizActual()));
         listaCelulasVivasRondas.add(contarCelulasVivas(tablero.getMatrizActual()));
 
         while (juegoActivo) {
@@ -52,7 +62,6 @@ public class Main {
             System.out.print("Opcion: ");
 
             int eleccion = scanner.nextInt();
-            
 
             switch (eleccion) {
                 case 1:
@@ -61,7 +70,7 @@ public class Main {
 
                     System.out.println("Generacion " + numeroGeneracion + ":");
                     tablero.mostrarTablero();
-                    System.out.println("Células vivas: " + contarCelulasVivas(tablero.getMatrizActual()));
+                    System.out.println("Celulas vivas: " + contarCelulasVivas(tablero.getMatrizActual()));
                     listaCelulasVivasRondas.add(contarCelulasVivas(tablero.getMatrizActual()));
 
                     // Comprobamos si hay 3 generaciones consecutivas iguales
@@ -73,7 +82,7 @@ public class Main {
 
                     // Si hay 3 generaciones consecutivas iguales, terminar el juego sin mostrar la siguiente
                     if (generacionesIgualesConsecutivas == 3) {
-                        System.out.println("El juego ha terminado debido a la estabilización de células durante tres generaciones consecutivas.");
+                        System.out.println("El juego ha terminado debido a la estabilizacion de celulas durante tres generaciones consecutivas.");
                         juegoActivo = false;
                     }
 

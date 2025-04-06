@@ -1,4 +1,3 @@
-
 package daw;
 
 import java.io.BufferedWriter;
@@ -20,7 +19,7 @@ public class GuardarJuego {
             writer.write(n + " " + n);
             writer.newLine();
             
-            // Guardar número de generación
+            // Guardar numero de generacion
             writer.write(String.valueOf(numeroGeneracion));
             writer.newLine();
             
